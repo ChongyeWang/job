@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+
+        /* Profile Container */
+        .profile-container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-container h1 {
+            color: #0044cc;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+        }
+
+        /* Application List Styles */
+        .application-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .application-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .application-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .application-card h3 {
+            font-size: 1.6em;
+            margin: 0;
+            color: #0044cc;
+        }
+
+        .application-card p {
+            font-size: 1em;
+            margin: 5px 0;
+            color: #555;
+        }
+
+        .application-card .status {
+            font-weight: bold;
+            color: #888;
+        }
+
+        .application-card .date {
+            font-size: 0.9em;
+            color: #777;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .profile-container {
+                padding: 20px;
+                margin: 20px;
+            }
+
+            .profile-container h1 {
+                font-size: 2em;
+            }
+
+            .application-list {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .back-to-home {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #0044cc; /* Blue background */
+            color: white; /* White text */
+            text-decoration: none; /* Remove underline */
+            border-radius: 6px; /* Rounded corners */
+            font-size: 1em; /* Font size */
+            font-weight: 500; /* Medium font weight */
+            transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transitions */
+        }
+
+        .back-to-home:hover {
+            background-color: #003399; /* Darker blue on hover */
+            transform: translateY(-2px); /* Slight lift on hover */
+        }
+
+        .back-to-home:active {
+            background-color: #002266; /* Even darker blue on click */
+            transform: translateY(0); /* Reset lift on click */
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <h1>View All Job Applications</h1>
+        <!-- Application List -->
+        <div class="application-list">
+            {% if applications %}
+                {% for application in applications %}
+                    <div class="application-card">
+                        <h3>{{ application.job_id }}</h3>
+                        <p><strong>Applicant:</strong> {{ application.applicant_name }}</p>
+                        <p><strong>Applicant Email:</strong> {{ application.applicant_email }}</p>
+                        <p><strong>Resume:</strong> <a href="{{ application.resume_url }}" download>Download Resume</a></p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No applications found.</p>
+            {% endif %}
+        </div>
+        <a href="{% url 'home' %}" class="back-to-home">← Go Back to Home Page</a>
+    </div>
+</body>
+</html>

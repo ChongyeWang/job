@@ -216,6 +216,9 @@
 <header>
     <nav style="position: absolute; top: 20px; right: 20px; z-index: 2;">
         {% if is_logged_in %}
+            {% if isAdmin %}
+            <a href="{% url 'admin' %}" style="margin-right: 15px; padding: 10px 20px; border-radius: 5px; background-color: #0044cc; color: white; text-decoration: none; transition: background-color 0.3s;">Employeer Admin</a>
+            {% endif %}
             <a href="{% url 'profile' %}" style="margin-right: 15px; padding: 10px 20px; border-radius: 5px; background-color: #0044cc; color: white; text-decoration: none; transition: background-color 0.3s;">My Profile</a>
             <!-- Display Logout and Username if logged in -->
             <span style="margin-right: 15px; color: white; font-weight: bold;">Welcome, {{ username }}!</span>
@@ -229,7 +232,7 @@
             <a href="{% url 'register' %}" style="padding: 10px 20px; border-radius: 5px; background-color: #ffcc00; color: white; text-decoration: none; transition: background-color 0.3s;">Register</a>
         {% endif %}
     </nav>
-    <h1>Job Portal</h1>
+    <h1>Jobb Portal</h1>
     <p>Your next job is just a search away!</p>
     <div class="search-container">
         <form method="GET">
@@ -306,15 +309,288 @@
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
-        }
+                }
 
         #uploadButton:hover {
             background-color: #003399;
         }
+
+                /* Bot Widget Styles */
+        #bot-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            text-align: center;
+        }
+        #bot-toggle {
+            background: #0044cc;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        #bot-menu {
+            display: none;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+        #bot-menu h4 {
+            margin: 0 0 10px;
+            font-size: 1.1em;
+            color: #0044cc;
+        }
+        #bot-menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        #bot-menu ul li {
+            margin-bottom: 8px;
+        }
+        #bot-menu ul li a {
+            text-decoration: none;
+            color: #0044cc;
+            font-size: 0.95em;
+            transition: color 0.3s;
+        }
+        #bot-menu ul li a:hover {
+            color: #003399;
+        }
+
+        /* Modal Styles */
+        .modal {
+          display: none; /* Hidden by default */
+          position: fixed; 
+          z-index: 1001;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          overflow: auto; 
+          background-color: rgba(0,0,0,0.4); /* Black background with opacity */
+        }
+        .modal-content {
+          background-color: #fefefe;
+          margin: 15% auto;
+          padding: 20px;
+          border-radius: 8px;
+          width: 80%;
+          max-width: 600px;
+          position: relative;
+        }
+        .close-button {
+          color: #aaa;
+          float: right;
+          font-size: 28px;
+          font-weight: bold;
+          cursor: pointer;
+        }
+        .close-button:hover,
+        .close-button:focus {
+          color: black;
+        }
+
+        /* Full-Width Dashboard Container */
+        .dashboard {
+            background: #ffffff;
+            padding: 30px;
+            margin: 0; /* Remove outer margins if you want it to span the full width */
+            width: 100%;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-radius: 0; /* Remove border-radius if you want edge-to-edge look */
+        }
+
+        /* Optional: Wrapper to add some padding on the sides */
+        .dashboard-wrapper {
+            width: 100%;
+            padding: 0 20px; /* Adjust side padding as desired */
+            box-sizing: border-box;
+        }
+
+        /* Header Section */
+        .dashboard-header {
+            border-bottom: 2px solid #0044cc;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .dashboard-header h2 {
+            color: #0044cc;
+            margin: 0;
+            font-size: 2em;
+        }
+
+        /* Content Layout */
+        .dashboard-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        /* Dashboard Items */
+        .dashboard-item {
+            flex: 1;
+            min-width: 200px;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        .dashboard-item:hover {
+            transform: translateY(-5px);
+        }
+        .dashboard-item h3 {
+            margin: 0 0 10px;
+            color: #333;
+            font-size: 1.4em;
+        }
+        .dashboard-item p {
+            margin: 0;
+            font-size: 1.2em;
+            color: #666;
+        }
+
+        /* For full-width items if needed */
+        .dashboard-item.full-width {
+            flex-basis: 100%;
+        }
+
+
+        /* Feature Section Styling */
+        .feature-section {
+          padding: 60px 20px;
+          background-color: #f9f9f9;
+          text-align: center;
+        }
+
+        .feature-container {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 30px;
+        }
+
+        .feature-card {
+          background: #ffffff;
+          border-radius: 8px;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+          width: 350px; /* Bigger card width */
+          overflow: hidden;
+          transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+          transform: translateY(-5px);
+        }
+
+        .feature-card img {
+          width: 100%;
+          height: 250px; /* Bigger image height */
+          object-fit: cover;
+        }
+
+        .feature-card h3 {
+          font-size: 1.6em;
+          margin: 20px 10px 10px;
+          color: #0044cc;
+        }
+
+        .feature-card p {
+          font-size: 1.1em;
+          margin: 0 10px 20px;
+          color: #555;
+        }
+
+
+
     </style>
 </head>
 <body>
     <!-- Resume Upload Section -->
+    <div id="bot-widget">
+    <!-- Toggle Button -->
+    <button id="bot-toggle">Bot</button>
+    
+    <!-- Bot Menu -->
+    <div id="bot-menu">
+        <h4>Quick Navigation</h4>
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'profile' %}">My Profile</a></li>
+            <li><a href="#" id="intro-link">Introduction</a></li>
+        </ul>
+      </div>
+    </div>
+
+
+    <section class="feature-section">
+      <div class="feature-container">
+        <div class="feature-card">
+          <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=60" alt="Discover Jobs">
+          <h3>Discover Jobs</h3>
+          <p>Explore a wide range of job opportunities based on your skills and interests.</p>
+        </div>
+        <div class="feature-card">
+          <img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?q=80&w=2672&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Upload Resume">
+          <h3>Personalized Jobs</h3>
+          <p>Upload your resume effortlessly and get recommended jobs based on your skills.</p>
+        </div>
+        <div class="feature-card">
+          <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=2671&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Employer Services">
+          <h3>Data visulization</h3>
+          <p>Dashboard data visulization based on your acticity and application.</p>
+        </div>
+      </div>
+    </section>
+
+
+
+
+
+    <section id="dashboard" class="dashboard">
+    <div class="dashboard-header">
+        <h2>Dashboard</h2>
+    </div>
+    <div class="dashboard-content">
+        <div class="dashboard-item">
+            <h3>Hello!</h3>
+            <p>{{ username }}</p>
+        </div>
+        <div class="dashboard-item">
+            <h3>Weather</h3>
+            <p>{{ dashboard_data.weather }}</p>
+        </div>
+        {% if is_logged_in %}
+        <div class="dashboard-item">
+            <h3>Jobs Applied</h3>
+            <p>{{ dashboard_data.jobs_applied }}</p>
+        </div>
+        {% if isAdmin %}
+        <div class="dashboard-item">
+            <h3>Applications Received</h3>
+            <p>{{ dashboard_data.applications_received }}</p>
+        </div>
+        {% endif %}
+        {% else %}
+        <div class="dashboard-item full-width">
+            <p>Please log in to see your dashboard stats.</p>
+        </div>
+        {% endif %}
+    </div>
+    </section>
+
+  
     <div class="resume-upload">
         <h2>Upload Your Resume</h2>
         <div class="upload-area" id="uploadArea">
@@ -323,6 +599,19 @@
         </div>
         <div id="fileName"></div>
         <button id="uploadButton">Upload Resume</button>
+    </div>
+
+    <div id="intro-modal" class="modal">
+      <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <h2>Welcome to Our Jobb</h2>
+        <p>
+          This website is designed to help you find your target job.
+        </p>
+        <p>
+          Use our navigation bot or the menu above to quickly jump to different sections.
+        </p>
+      </div>
     </div>
 
     <!-- Script -->
@@ -377,6 +666,37 @@
             }
         });
     </script>
+    <script>
+    // Toggle bot menu display
+      document.getElementById("bot-toggle").addEventListener("click", function() {
+          var menu = document.getElementById("bot-menu");
+          if (menu.style.display === "none" || menu.style.display === "") {
+              menu.style.display = "block";
+          } else {
+              menu.style.display = "none";
+          }
+      });
+
+      // Open introduction modal when the "Introduction" link is clicked
+      document.getElementById('intro-link').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.getElementById('intro-modal').style.display = 'block';
+      });
+
+      // Close the modal when the close button (×) is clicked
+      document.querySelector('.close-button').addEventListener('click', function() {
+        document.getElementById('intro-modal').style.display = 'none';
+      });
+
+      // Close the modal if the user clicks outside the modal content
+      window.addEventListener('click', function(event) {
+        var modal = document.getElementById('intro-modal');
+        if (event.target == modal) {
+          modal.style.display = 'none';
+        }
+      });
+    </script>
+
 </body>
 </html>
 
@@ -415,8 +735,8 @@
         {% else %}
             <p>No jobs found. Please try a different search criteria!</p>
         {% endif %}
+         </div>
     </div>
-</div>
 
 
     <!-- Footer -->

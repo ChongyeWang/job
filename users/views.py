@@ -29,7 +29,6 @@ def register(request):
 from django.contrib.auth.forms import AuthenticationForm
 
 def user_login(request):
-	print(1111)
 	if request.method == 'POST':
 		form = AuthenticationForm()
 		username = request.POST.get('username')
@@ -39,6 +38,8 @@ def user_login(request):
 		if user_data:
 			request.session['user_id'] = str(user_data['_id'])  # Store user ID in session
 			request.session['username'] = user_data['username']  # Store username in session
+			if user_data['isAdmin']:
+				request.session['isAdmin'] = True
 			return redirect('home')
 		else:
 			messages.error(request, 'Invalid username or password.')
