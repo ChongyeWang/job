@@ -3,26 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Job Search - Find Your Dream Job</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>JobHub - Find Your Dream Career</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             box-sizing: border-box;
-        }
-        body {
-            font-family: 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f5f7fa;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
         }
 
+        /* Header Styles */
         header {
             position: relative;
             background: url('https://images.unsplash.com/photo-1542626991-cbc4e32524cc?q=80&w=2369&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center/cover;
-            color: white;
-            padding: 80px 0;
+            padding: 120px 0 80px;
             text-align: center;
-            background-size: cover;
+            color: white;
         }
 
         header::before {
@@ -32,590 +36,1185 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 68, 204, 0.5); /* Gradient overlay */
+            background: linear-gradient(135deg, rgba(0, 68, 204, 0.85) 0%, rgba(0, 38, 114, 0.9) 100%);
+            z-index: 1;
         }
 
-        h1 {
-            margin: 0;
-            font-size: 3em;
-            z-index: 1;
+        .header-content {
             position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header h1 {
+            font-size: 3.5em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            letter-spacing: 1px;
         }
 
         header p {
-            z-index: 1;
-            font-size: 1.2em;
-            margin-top: 10px;
+            font-size: 1.4em;
+            font-weight: 300;
+            margin-bottom: 30px;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Navigation Menu */
+        nav {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 3;
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: #ffcc00;
+        }
+
+        .auth-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .auth-links a {
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .login-btn {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid white;
+        }
+
+        .login-btn:hover {
+            background-color: white;
+            color: #0044cc;
+        }
+
+        .register-btn {
+            background-color: #ffcc00;
+            color: #333;
+        }
+
+        .register-btn:hover {
+            background-color: #e6b800;
+            transform: translateY(-2px);
+        }
+
+        .user-welcome {
+            color: white;
+            font-weight: 500;
+            margin-right: 15px;
+        }
+
+        /* Search Container */
+        .search-container {
+            background-color: white;
+            border-radius: 15px;
+            padding: 15px 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            max-width: 800px;
+            margin: 40px auto 0;
+        }
+
+        .search-container form {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .search-input-group {
+            flex: 1;
+            min-width: 200px;
             position: relative;
         }
 
-        .search-container {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 30px;
-            z-index: 1;
-            position: relative;
+        .search-input-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #aaa;
         }
 
         .search-container input,
-        .search-container select,
-        .search-container button {
-            padding: 12px 16px;
-            font-size: 1em;
-            border-radius: 8px;
-            border: 1px solid #ddd;
+        .search-container select {
+            width: 100%;
+            padding: 15px 15px 15px 40px;
+            border-radius: 30px;
+            border: 1px solid #e0e0e0;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
             outline: none;
+            transition: all 0.3s ease;
         }
 
         .search-container input:focus,
-        .search-container select:focus,
-        .search-container button:focus {
+        .search-container select:focus {
             border-color: #0044cc;
+            box-shadow: 0 0 0 3px rgba(0, 68, 204, 0.2);
         }
 
         .search-container button {
-            background-color: #ffcc00;
+            background-color: #0044cc;
             color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: 500;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
+            flex: 0 0 auto;
         }
 
         .search-container button:hover {
-            background-color: #e6b800;
+            background-color: #003399;
+            transform: translateY(-2px);
         }
 
-        /* Main Content Styles */
+        /* Main Content */
         .main-content {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            padding: 40px 20px;
-            justify-content: space-between;
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 30px;
         }
 
+        /* Sidebar */
         .sidebar {
-            width: 300px;
             background-color: white;
-            padding: 20px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 25px;
         }
 
         .sidebar h3 {
-            font-size: 1.5em;
-            margin-bottom: 15px;
+            font-size: 20px;
+            font-weight: 600;
             color: #0044cc;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .filter-group {
+            margin-bottom: 20px;
+        }
+
+        .filter-label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 10px;
+            color: #555;
         }
 
         .filter-input {
             width: 100%;
-            padding: 12px;
-            margin-bottom: 20px;
+            padding: 12px 15px;
             border-radius: 8px;
-            border: 1px solid #ddd;
+            border: 1px solid #e0e0e0;
+            font-family: 'Poppins', sans-serif;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
         }
 
+        .filter-input:focus {
+            border-color: #0044cc;
+            box-shadow: 0 0 0 3px rgba(0, 68, 204, 0.1);
+        }
+
+        .filter-button {
+            width: 100%;
+            padding: 12px;
+            background-color: #0044cc;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-button:hover {
+            background-color: #003399;
+        }
+
+        /* Job Listings */
         .job-listing {
-            flex: 1;
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
         }
 
         .job-card {
             background-color: white;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            padding: 25px;
+            transition: all 0.3s ease;
+            border-top: 4px solid #0044cc;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .job-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #0044cc, #6c8fff);
         }
 
         .job-card:hover {
             transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
         }
 
         .job-card h3 {
-            font-size: 1.6em;
-            margin: 0;
-            color: #0044cc;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 10px;
         }
 
-        .job-card p {
-            font-size: 1em;
-            margin: 5px 0;
+        .job-card h3 a {
+            color: #0044cc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .job-card h3 a:hover {
+            color: #003399;
+        }
+
+        .job-company {
+            font-weight: 500;
+            margin-bottom: 8px;
             color: #555;
         }
 
-        .job-card .location {
-            font-weight: bold;
-            color: #888;
-        }
-
-        /* Footer Styles - Updated to black and white */
-        footer {
-            background-color: black; /* Black background */
-            color: white; /* White text */
-            padding: 60px 20px;
-            text-align: center;
-        }
-
-        footer .footer-links {
+        .job-location {
             display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin-bottom: 30px;
+            align-items: center;
+            margin-bottom: 8px;
+            color: #777;
         }
 
-        footer .footer-links a {
-            color: white;
-            text-decoration: none;
-            font-size: 1.1em;
-            transition: color 0.3s;
+        .job-location i {
+            margin-right: 8px;
+            color: #0044cc;
         }
 
-        footer .footer-links a:hover {
-            color: #ffcc00;
+        .job-salary {
+            display: flex;
+            align-items: center;
+            color: #777;
+            margin-bottom: 15px;
         }
 
-        footer .social-icons {
-            margin-top: 20px;
+        .job-salary i {
+            margin-right: 8px;
+            color: #0044cc;
         }
 
-        footer .social-icons a {
-            color: white;
-            font-size: 1.5em;
-            margin: 0 15px;
-            transition: color 0.3s;
+        .job-type {
+            display: inline-block;
+            padding: 6px 12px;
+            background-color: rgba(0, 68, 204, 0.1);
+            color: #0044cc;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 30px;
+            margin-top: 10px;
         }
 
-        footer .social-icons a:hover {
-            color: #ffcc00;
+        /* Features Section */
+        .feature-section {
+            background-color: #f0f4f8;
+            padding: 80px 20px;
         }
 
-        @media (max-width: 768px) {
-            .search-container {
-                flex-direction: column;
-            }
-
-            .main-content {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .sidebar {
-                width: 100%;
-                margin-bottom: 20px;
-            }
-        }
-    </style>
-</head>
-<body>
-
-   <!-- Header -->
-<header>
-    <nav style="position: absolute; top: 20px; right: 20px; z-index: 2;">
-        {% if is_logged_in %}
-            {% if isAdmin %}
-            <a href="{% url 'admin' %}" style="margin-right: 15px; padding: 10px 20px; border-radius: 5px; background-color: #0044cc; color: white; text-decoration: none; transition: background-color 0.3s;">Employeer Admin</a>
-            {% endif %}
-            <a href="{% url 'profile' %}" style="margin-right: 15px; padding: 10px 20px; border-radius: 5px; background-color: #0044cc; color: white; text-decoration: none; transition: background-color 0.3s;">My Profile</a>
-            <!-- Display Logout and Username if logged in -->
-            <span style="margin-right: 15px; color: white; font-weight: bold;">Welcome, {{ username }}!</span>
-            <a href="{% url 'logout' %}" style="padding: 10px 20px; border-radius: 5px; background-color: #ffcc00; color: white; text-decoration: none; transition: background-color 0.3s;">Logout</a>
-        
-
-
-        {% else %}
-            <!-- Display Login and Register if not logged in -->
-            <a href="{% url 'login' %}" style="margin-right: 15px; padding: 10px 20px; border-radius: 5px; background-color: #0044cc; color: white; text-decoration: none; transition: background-color 0.3s;">Login</a>
-            <a href="{% url 'register' %}" style="padding: 10px 20px; border-radius: 5px; background-color: #ffcc00; color: white; text-decoration: none; transition: background-color 0.3s;">Register</a>
-        {% endif %}
-    </nav>
-    <h1>Jobb Portal</h1>
-    <p>Your next job is just a search away!</p>
-    <div class="search-container">
-        <form method="GET">
-            <input type="text" name="keyword" placeholder="Search for jobs" value="{{ keyword }}">
-            <input type="text" name="location" placeholder="Location" value="{{ location }}">
-            <select name="job_type">
-                <option value="">Select Job Type</option>
-                <option value="Full-time" {% if job_type == 'Full-time' %}selected{% endif %}>Full-time</option>
-                <option value="Part-time" {% if job_type == 'Part-time' %}selected{% endif %}>Part-time</option>
-                <option value="Remote" {% if job_type == 'Remote' %}selected{% endif %}>Remote</option>
-            </select>
-            <button type="submit">Apply Filters</button>
-        </form>
-    </div>
-</header>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Job Search Page - Resume Upload</title>
-    <!-- Styles -->
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 0;
-        }
-
-        .resume-upload {
+        .feature-section h2 {
             text-align: center;
+            font-size: 32px;
+            font-weight: 600;
+            color: #0044cc;
+            margin-bottom: 50px;
+        }
+
+        .feature-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+            width: 350px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-img-container {
+            position: relative;
+            height: 220px;
+            overflow: hidden;
+        }
+
+        .feature-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .feature-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .feature-content {
+            padding: 25px;
+        }
+
+        .feature-card h3 {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #0044cc;
+        }
+
+        .feature-card p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .feature-card .feature-link {
+            display: inline-flex;
+            align-items: center;
+            color: #0044cc;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .feature-card .feature-link i {
+            margin-left: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card .feature-link:hover i {
+            transform: translateX(5px);
+        }
+
+        /* Dashboard */
+        .dashboard {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
             padding: 30px;
-            background-color: #ffffff;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            margin: 40px auto;
-            width: 80%;
-            max-width: 6000px;
+            margin: 60px auto;
+            max-width: 1200px;
+        }
+
+        .dashboard-header {
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .dashboard-header h2 {
+            color: #0044cc;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .dashboard-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+        }
+
+        .dashboard-item {
+            background: linear-gradient(145deg, #f8f9fa, #ffffff);
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border-bottom: 3px solid #0044cc;
+        }
+
+        .dashboard-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .dashboard-item .icon {
+            font-size: 32px;
+            color: #0044cc;
+            margin-bottom: 15px;
+        }
+
+        .dashboard-item h3 {
+            font-size: 18px;
+            font-weight: 500;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .dashboard-item p {
+            font-size: 24px;
+            font-weight: 600;
+            color: #0044cc;
+        }
+
+        .dashboard-item.full-width {
+            grid-column: 1 / -1;
+            padding: 20px;
+            background-color: #f8f9fa;
+            color: #555;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        /* Resume Upload */
+        .resume-upload {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+            padding: 40px;
+            margin: 60px auto;
+            max-width: 800px;
+            text-align: center;
         }
 
         .resume-upload h2 {
             color: #0044cc;
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 20px;
         }
 
         .upload-area {
-            border: 2px dashed #cccccc;
-            padding: 50px;
+            border: 2px dashed #cfd9e6;
+            padding: 50px 20px;
             border-radius: 10px;
+            margin-bottom: 20px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.3s ease;
+            background-color: #f8fafc;
         }
 
         .upload-area:hover {
-            background-color: #f8f8f8;
+            border-color: #0044cc;
+            background-color: #f0f4f8;
+        }
+
+        .upload-area i {
+            font-size: 48px;
+            color: #0044cc;
+            margin-bottom: 15px;
         }
 
         .upload-area p {
-            color: #888888;
-            margin: 0;
+            color: #666;
+            font-size: 16px;
         }
 
         #fileName {
-            margin-top: 20px;
-            color: #555555;
+            margin-top: 15px;
+            font-weight: 500;
+            color: #0044cc;
         }
 
         #uploadButton {
-            margin-top: 20px;
-            padding: 10px 20px;
             background-color: #0044cc;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 30px;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: 500;
             cursor: pointer;
-            transition: background-color 0.3s;
-                }
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
 
         #uploadButton:hover {
             background-color: #003399;
+            transform: translateY(-2px);
         }
 
-                /* Bot Widget Styles */
+        /* Bot Widget */
         #bot-widget {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 30px;
+            right: 30px;
             z-index: 1000;
-            text-align: center;
         }
+
         #bot-toggle {
-            background: #0044cc;
+            background: linear-gradient(45deg, #0044cc, #0066ff);
             color: white;
             border: none;
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             cursor: pointer;
-            font-weight: bold;
-            font-size: 16px;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
         }
+
+        #bot-toggle:hover {
+            transform: scale(1.1);
+        }
+
         #bot-menu {
             display: none;
             background: white;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-            padding: 10px;
-            margin-bottom: 10px;
-            text-align: left;
+            border-radius: 15px;
+            padding: 20px;
+            width: 250px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            margin-bottom: 15px;
+            animation: slideUp 0.3s ease;
         }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         #bot-menu h4 {
-            margin: 0 0 10px;
-            font-size: 1.1em;
             color: #0044cc;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #f0f0f0;
         }
+
         #bot-menu ul {
             list-style: none;
-            padding: 0;
-            margin: 0;
         }
+
         #bot-menu ul li {
-            margin-bottom: 8px;
+            margin-bottom: 12px;
         }
+
         #bot-menu ul li a {
-            text-decoration: none;
-            color: #0044cc;
-            font-size: 0.95em;
-            transition: color 0.3s;
-        }
-        #bot-menu ul li a:hover {
-            color: #003399;
-        }
-
-        /* Modal Styles */
-        .modal {
-          display: none; /* Hidden by default */
-          position: fixed; 
-          z-index: 1001;
-          left: 0;
-          top: 0;
-          width: 100%;
-          height: 100%;
-          overflow: auto; 
-          background-color: rgba(0,0,0,0.4); /* Black background with opacity */
-        }
-        .modal-content {
-          background-color: #fefefe;
-          margin: 15% auto;
-          padding: 20px;
-          border-radius: 8px;
-          width: 80%;
-          max-width: 600px;
-          position: relative;
-        }
-        .close-button {
-          color: #aaa;
-          float: right;
-          font-size: 28px;
-          font-weight: bold;
-          cursor: pointer;
-        }
-        .close-button:hover,
-        .close-button:focus {
-          color: black;
-        }
-
-        /* Full-Width Dashboard Container */
-        .dashboard {
-            background: #ffffff;
-            padding: 30px;
-            margin: 0; /* Remove outer margins if you want it to span the full width */
-            width: 100%;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            border-radius: 0; /* Remove border-radius if you want edge-to-edge look */
-        }
-
-        /* Optional: Wrapper to add some padding on the sides */
-        .dashboard-wrapper {
-            width: 100%;
-            padding: 0 20px; /* Adjust side padding as desired */
-            box-sizing: border-box;
-        }
-
-        /* Header Section */
-        .dashboard-header {
-            border-bottom: 2px solid #0044cc;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        .dashboard-header h2 {
-            color: #0044cc;
-            margin: 0;
-            font-size: 2em;
-        }
-
-        /* Content Layout */
-        .dashboard-content {
             display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
+            align-items: center;
+            color: #555;
+            text-decoration: none;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        #bot-menu ul li a i {
+            margin-right: 10px;
+            color: #0044cc;
+        }
+
+        #bot-menu ul li a:hover {
+            color: #0044cc;
+            transform: translateX(5px);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 30px;
+            width: 90%;
+            max-width: 600px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: scaleIn 0.3s ease;
+            position: relative;
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .close-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            color: #aaa;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close-button:hover {
+            color: #333;
+        }
+
+        .modal-content h2 {
+            color: #0044cc;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .modal-content p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #1a1a1a;
+            color: white;
+            padding: 80px 20px 40px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .footer-section h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 2px;
+            background-color: #ffcc00;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .footer-links a i {
+            margin-right: 8px;
+            font-size: 14px;
+        }
+
+        .footer-links a:hover {
+            color: #ffcc00;
+            transform: translateX(5px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #333;
+            font-size: 14px;
+            color: #888;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
             justify-content: center;
         }
 
-        /* Dashboard Items */
-        .dashboard-item {
-            flex: 1;
-            min-width: 200px;
-            background: #f9f9f9;
-            padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-            transition: transform 0.3s ease;
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: #333;
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
         }
-        .dashboard-item:hover {
+
+        .social-links a:hover {
+            background-color: #ffcc00;
+            color: #1a1a1a;
             transform: translateY(-5px);
         }
-        .dashboard-item h3 {
-            margin: 0 0 10px;
-            color: #333;
-            font-size: 1.4em;
-        }
-        .dashboard-item p {
-            margin: 0;
-            font-size: 1.2em;
-            color: #666;
-        }
 
-        /* For full-width items if needed */
-        .dashboard-item.full-width {
-            flex-basis: 100%;
+        /* Responsive */
+        @media (max-width: 992px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            header h1 {
+                font-size: 2.8em;
+            }
         }
 
-
-        /* Feature Section Styling */
-        .feature-section {
-          padding: 60px 20px;
-          background-color: #f9f9f9;
-          text-align: center;
+        @media (max-width: 768px) {
+            nav {
+                padding: 15px 20px;
+            }
+            
+            .search-container {
+                padding: 15px;
+            }
+            
+            .search-container button {
+                width: 100%;
+            }
+            
+            header h1 {
+                font-size: 2.4em;
+            }
+            
+            header p {
+                font-size: 1.2em;
+            }
+            
+            .feature-container {
+                gap: 20px;
+            }
         }
 
-        .feature-container {
-          display: flex;
-          flex-wrap: wrap;
-          justify-content: center;
-          gap: 30px;
+        @media (max-width: 576px) {
+            .auth-links {
+                gap: 10px;
+            }
+            
+            .auth-links a {
+                padding: 8px 15px;
+                font-size: 14px;
+            }
+            
+            .user-welcome {
+                display: none;
+            }
+            
+            header {
+                padding: 100px 0 60px;
+            }
+            
+            header h1 {
+                font-size: 2em;
+            }
+            
+            .job-listing {
+                grid-template-columns: 1fr;
+            }
         }
+        /* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 40px 0;
+    grid-column: 1 / -1;
+}
 
-        .feature-card {
-          background: #ffffff;
-          border-radius: 8px;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-          width: 350px; /* Bigger card width */
-          overflow: hidden;
-          transition: transform 0.3s ease;
-        }
+.pagination-item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    margin: 0 5px;
+    background-color: white;
+    color: #0044cc;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 500;
+    border: 1px solid #e0e0e0;
+    transition: all 0.3s ease;
+}
 
-        .feature-card:hover {
-          transform: translateY(-5px);
-        }
+.pagination-item:hover {
+    background-color: #f0f4f8;
+    transform: translateY(-2px);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
 
-        .feature-card img {
-          width: 100%;
-          height: 250px; /* Bigger image height */
-          object-fit: cover;
-        }
+.pagination-item.current {
+    background-color: #0044cc;
+    color: white;
+    border-color: #0044cc;
+}
 
-        .feature-card h3 {
-          font-size: 1.6em;
-          margin: 20px 10px 10px;
-          color: #0044cc;
-        }
-
-        .feature-card p {
-          font-size: 1.1em;
-          margin: 0 10px 20px;
-          color: #555;
-        }
-
-
-
+.pagination-item i {
+    font-size: 12px;
+}
     </style>
 </head>
 <body>
-    <!-- Resume Upload Section -->
-    <div id="bot-widget">
-    <!-- Toggle Button -->
-    <button id="bot-toggle">Bot</button>
-    
-    <!-- Bot Menu -->
-    <div id="bot-menu">
-        <h4>Quick Navigation</h4>
-        <ul>
-            <li><a href="{% url 'home' %}">Home</a></li>
-            <li><a href="{% url 'profile' %}">My Profile</a></li>
-            <li><a href="#" id="intro-link">Introduction</a></li>
-        </ul>
-      </div>
-    </div>
 
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="#" class="logo">Job<span>Hub</span></a>
+            <div class="auth-links">
+                {% if is_logged_in %}
+                    <span class="user-welcome">Welcome, {{ username }}!</span>
+                    {% if isAdmin %}
+                    <a href="{% url 'admin' %}" class="login-btn">Employer Admin</a>
+                    {% endif %}
+                    <a href="{% url 'profile' %}" class="login-btn">My Profile</a>
+                    <a href="{% url 'logout' %}" class="register-btn">Logout</a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="login-btn">Login</a>
+                    <a href="{% url 'register' %}" class="register-btn">Register</a>
+                {% endif %}
+            </div>
+        </nav>
+        
+        <div class="header-content">
+            <h1>Discover Your Dream Career</h1>
+            <p>Find the perfect job opportunity that matches your skills and aspirations</p>
+            
+            <div class="search-container">
+                <form method="GET">
+                    <div class="search-input-group">
+                        <i class="fas fa-search"></i>
+                        <input type="text" name="keyword" placeholder="Job title or keyword" value="{{ keyword }}">
+                    </div>
+                    <div class="search-input-group">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <input type="text" name="location" placeholder="Location" value="{{ location }}">
+                    </div>
+                    <div class="search-input-group">
+                        <i class="fas fa-briefcase"></i>
+                        <select name="job_type">
+                            <option value="">Job Type</option>
+                            <option value="Full-time" {% if job_type == 'Full-time' %}selected{% endif %}>Full-time</option>
+                            <option value="Part-time" {% if job_type == 'Part-time' %}selected{% endif %}>Part-time</option>
+                            <option value="Remote" {% if job_type == 'Remote' %}selected{% endif %}>Remote</option>
+                        </select>
+                    </div>
+                    <button type="submit"><i class="fas fa-search"></i> Find Jobs</button>
+                </form>
+            </div>
+        </div>
+    </header>
 
+    <!-- Dashboard -->
+    <section class="dashboard">
+        <div class="dashboard-header">
+            <h2>Your Dashboard</h2>
+        </div>
+        <div class="dashboard-content">
+            <div class="dashboard-item">
+                <div class="icon"><i class="fas fa-user"></i></div>
+                <h3>Hello!</h3>
+                <p>{{ username|default:'Guest' }}</p>
+            </div>
+            <div class="dashboard-item">
+                <div class="icon"><i class="fas fa-cloud-sun"></i></div>
+                <h3>Weather</h3>
+                <p>{{ dashboard_data.weather|default:'Sunny' }}</p>
+            </div>
+            {% if is_logged_in %}
+            <div class="dashboard-item">
+                <div class="icon"><i class="fas fa-paper-plane"></i></div>
+                <h3>Jobs Applied</h3>
+                <p>{{ dashboard_data.jobs_applied|default:'0' }}</p>
+            </div>
+            {% if isAdmin %}
+            <div class="dashboard-item">
+                <div class="icon"><i class="fas fa-inbox"></i></div>
+                <h3>Applications</h3>
+                <p>{{ dashboard_data.applications_received|default:'0' }}</p>
+            </div>
+            {% endif %}
+            {% else %}
+            <div class="dashboard-item full-width">
+                <p><i class="fas fa-lock"></i> Please log in to see your personalized dashboard stats</p>
+            </div>
+            {% endif %}
+        </div>
+    </section>
+
+    <!-- Feature Section -->
     <section class="feature-section">
-      <div class="feature-container">
-        <div class="feature-card">
-          <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=60" alt="Discover Jobs">
-          <h3>Discover Jobs</h3>
-          <p>Explore a wide range of job opportunities based on your skills and interests.</p>
+        <h2>Why Choose JobHub</h2>
+        <div class="feature-container">
+            <div class="feature-card">
+                <div class="feature-img-container">
+                    <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=60" alt="Discover Jobs">
+                </div>
+                <div class="feature-content">
+                    <h3>Discover Jobs</h3>
+                    <p>Explore thousands of job opportunities tailored to your skills, experience, and career goals.</p>
+                    <a href="#" class="feature-link">Learn more <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-img-container">
+                    <img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?q=80&w=2672&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Personalized Jobs">
+                </div>
+                <div class="feature-content">
+                    <h3>Personalized Jobs</h3>
+                    <p>Upload your resume and let our AI-powered system match you with the perfect job opportunities.</p>
+                    <a href="#" class="feature-link">Upload now <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-img-container">
+                    <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=2671&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Data Visualization">
+                </div>
+                <div class="feature-content">
+                    <h3>Data Visualization</h3>
+                    <p>Track your job search progress with interactive charts and personalized analytics.</p>
+                    <a href="#" class="feature-link">View dashboard <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
         </div>
-        <div class="feature-card">
-          <img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?q=80&w=2672&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Upload Resume">
-          <h3>Personalized Jobs</h3>
-          <p>Upload your resume effortlessly and get recommended jobs based on your skills.</p>
-        </div>
-        <div class="feature-card">
-          <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=2671&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Employer Services">
-          <h3>Data visulization</h3>
-          <p>Dashboard data visulization based on your acticity and application.</p>
-        </div>
-      </div>
     </section>
 
-
-
-
-
-    <section id="dashboard" class="dashboard">
-    <div class="dashboard-header">
-        <h2>Dashboard</h2>
-    </div>
-    <div class="dashboard-content">
-        <div class="dashboard-item">
-            <h3>Hello!</h3>
-            <p>{{ username }}</p>
-        </div>
-        <div class="dashboard-item">
-            <h3>Weather</h3>
-            <p>{{ dashboard_data.weather }}</p>
-        </div>
-        {% if is_logged_in %}
-        <div class="dashboard-item">
-            <h3>Jobs Applied</h3>
-            <p>{{ dashboard_data.jobs_applied }}</p>
-        </div>
-        {% if isAdmin %}
-        <div class="dashboard-item">
-            <h3>Applications Received</h3>
-            <p>{{ dashboard_data.applications_received }}</p>
-        </div>
-        {% endif %}
-        {% else %}
-        <div class="dashboard-item full-width">
-            <p>Please log in to see your dashboard stats.</p>
-        </div>
-        {% endif %}
-    </div>
-    </section>
-
-  
+    <!-- Resume Upload -->
     <div class="resume-upload">
         <h2>Upload Your Resume</h2>
         <div class="upload-area" id="uploadArea">
+            <i class="fas fa-file-upload"></i>
             <p>Drag & Drop your resume here or click to upload</p>
             <input type="file" id="resumeInput" accept=".pdf,.doc,.docx" hidden>
         </div>
         <div id="fileName"></div>
-        <button id="uploadButton">Upload Resume</button>
+        <button id="uploadButton"><i class="fas fa-cloud-upload-alt"></i> Upload Resume</button>
     </div>
 
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="sidebar">
+            <h3>Filter Jobs</h3>
+            <form method="GET">
+                <div class="filter-group">
+                    <label class="filter-label">Job Title</label>
+                    <input type="text" class="filter-input" placeholder="Search by job title" name="keyword" value="{{ keyword }}">
+                </div>
+                
+                <div class="filter-group">
+                    <label class="filter-label">Location</label>
+                    <input type="text" class="filter-input" placeholder="Search by location" name="location" value="{{ location }}">
+                </div>
+                
+                <div class="filter-group">
+                    <label class="filter-label">Job Type</label>
+                    <select class="filter-input" name="job_type">
+                        <option value="">All Job Types</option>
+                        <option value="Full-time" {% if job_type == 'Full-time' %}selected{% endif %}>Full-time</option>
+                        <option value="Part-time" {% if job_type == 'Part-time' %}selected{% endif %}>Part-time</option>
+                        <option value="Remote" {% if job_type == 'Remote' %}selected{% endif %}>Remote</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="filter-button">Apply Filters</button>
+            </form>
+        </div>
+
+        <div class="job-listing">
+            {% if jobs %}
+                {% for job in jobs %}
+                    <div class="job-card">
+                        <h3><a href="{% url 'job_detail' job.job_id %}">{{ job.title }}</a></h3>
+                        <p class="job-company">{{ job.company }}</p>
+                        <p class="job-location"><i class="fas fa-map-marker-alt"></i> {{ job.location }}</p>
+                        <p class="job-salary"><i class="fas fa-dollar-sign"></i> ${{ job.salary }}</p>
+                        <span class="job-type">{{ job.job_type|default:'Full-time' }}</span>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div style="grid-column: 1 / -1; text-align: center; padding: 40px 20px;">
+                    <i class="fas fa-search" style="font-size: 48px; color: #ccc; margin-bottom: 15px;"></i>
+                    <h3 style="color: #555; margin-bottom: 10px;">No jobs found</h3>
+                    <p style="color: #777;">Please try different search criteria or check back later for new opportunities.</p>
+                </div>
+            {% endif %}
+        </div>
+        
+    </div>
+
+    <!-- Bot Widget -->
+    <div id="bot-widget">
+        <div id="bot-menu">
+            <h4>Quick Navigation</h4>
+            <ul>
+                <li><a href="{% url 'home' %}"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="{% url 'profile' %}"><i class="fas fa-user"></i> My Profile</a></li>
+                <li><a href="#" id="intro-link"><i class="fas fa-info-circle"></i> Introduction</a></li>
+            </ul>
+        </div>
+        <button id="bot-toggle"><i class="fas fa-robot"></i></button>
+    </div>
+
+    <!-- Introduction Modal -->
     <div id="intro-modal" class="modal">
-      <div class="modal-content">
-        <span class="close-button">&times;</span>
-        <h2>Welcome to Our Jobb</h2>
-        <p>
-          This website is designed to help you find your target job.
-        </p>
-        <p>
-          Use our navigation bot or the menu above to quickly jump to different sections.
-        </p>
-      </div>
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Welcome to JobHub!</h2>
+            <p>Your journey to finding the perfect career starts here. JobHub is designed to connect talented professionals with outstanding job opportunities.</p>
+            <p>Use our powerful search filters to find jobs that match your skills and preferences, upload your resume for personalized recommendations, and track your application progress through our interactive dashboard.</p>
+            <p>Need help navigating? Use our bot assistant for quick access to different sections of the site.</p>
+        </div>
     </div>
 
-    <!-- Script -->
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3>About JobHub</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-angle-right"></i> About Us</a></li>
+                        <li><a href="#"><i class="fas fa-angle-right"></i> How It Works</a></li>
+                        <li><a href="#"><i class="fas fa-angle-right"></i> Success Stories</a></li>
+                        <li><a href="#"><i class="fas fa-angle-right"></i> Press & Media</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>For Job Seekers</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-angle-right"></i> Browse Jobs</a></li>
+                        <li><a href="#"><i class="fas fa-angle-right"></i> Career Advice</a></li>
+                        <li><a href="#"><i class="fas fa-angle-right"></i> Resume Tips</a></li>
+                        <li><a href="#"><i class="fas fa-angle-right"></i> Interview Preparation</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>For Employers</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-angle-right"></i> Post a Job</a></li>
+                        <li><a href="#"><i class="fas fa-angle-right"></i> Browse Candidates</a></li>
+                        <li><a href="#"><i class="fas fa-angle-right"></i> Recruitment Solutions</a></li>
+                        <li><a href="#"><i class="fas fa-angle-right"></i> Pricing Plans</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-envelope"></i> support@jobhub.com</a></li>
+                        <li><a href="#"><i class="fas fa-phone"></i> +1 (555) 123-4567</a></li>
+                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> 123 Job Street, Career City</a></li>
+                        <li><a href="#"><i class="fas fa-headset"></i> Help Center</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 JobHub - All Rights Reserved</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
     <script>
+        // Resume Upload Functionality
         const uploadArea = document.getElementById('uploadArea');
         const resumeInput = document.getElementById('resumeInput');
         const fileNameDisplay = document.getElementById('fileName');
@@ -639,16 +1238,20 @@
         // Drag and drop functionality
         uploadArea.addEventListener('dragover', (event) => {
             event.preventDefault();
-            uploadArea.style.backgroundColor = '#f0f0f0';
+            uploadArea.style.backgroundColor = '#f0f4f8';
+            uploadArea.style.borderColor = '#0044cc';
         });
 
         uploadArea.addEventListener('dragleave', () => {
-            uploadArea.style.backgroundColor = '#ffffff';
+            uploadArea.style.backgroundColor = '#f8fafc';
+            uploadArea.style.borderColor = '#cfd9e6';
         });
 
         uploadArea.addEventListener('drop', (event) => {
             event.preventDefault();
-            uploadArea.style.backgroundColor = '#ffffff';
+            uploadArea.style.backgroundColor = '#f8fafc';
+            uploadArea.style.borderColor = '#cfd9e6';
+            
             const file = event.dataTransfer.files[0];
             if (file) {
                 selectedFile = file;
@@ -659,99 +1262,63 @@
         // Upload button functionality
         uploadButton.addEventListener('click', () => {
             if (selectedFile) {
-                alert(`Uploading: ${selectedFile.name}`);
-                // Implement your backend upload logic here (e.g., using Fetch or AJAX)
+                // Show a fancy notification instead of an alert
+                const notification = document.createElement('div');
+                notification.style.position = 'fixed';
+                notification.style.bottom = '20px';
+                notification.style.left = '50%';
+                notification.style.transform = 'translateX(-50%)';
+                notification.style.backgroundColor = '#0044cc';
+                notification.style.color = 'white';
+                notification.style.padding = '15px 25px';
+                notification.style.borderRadius = '30px';
+                notification.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.2)';
+                notification.style.zIndex = '9999';
+                notification.innerHTML = `<i class="fas fa-check-circle"></i> Uploading: ${selectedFile.name}`;
+                
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.style.opacity = '0';
+                    notification.style.transition = 'opacity 0.5s ease';
+                    
+                    setTimeout(() => {
+                        document.body.removeChild(notification);
+                    }, 500);
+                }, 3000);
+                
+                // Here you would implement your backend upload logic
             } else {
                 alert('Please select a file first.');
             }
         });
+
+        // Bot Widget Toggle
+        document.getElementById("bot-toggle").addEventListener("click", function() {
+            var menu = document.getElementById("bot-menu");
+            if (menu.style.display === "none" || menu.style.display === "") {
+                menu.style.display = "block";
+            } else {
+                menu.style.display = "none";
+            }
+        });
+
+        // Modal Functionality
+        document.getElementById('intro-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('intro-modal').style.display = 'block';
+        });
+
+        document.querySelector('.close-button').addEventListener('click', function() {
+            document.getElementById('intro-modal').style.display = 'none';
+        });
+
+        window.addEventListener('click', function(event) {
+            var modal = document.getElementById('intro-modal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        });
     </script>
-    <script>
-    // Toggle bot menu display
-      document.getElementById("bot-toggle").addEventListener("click", function() {
-          var menu = document.getElementById("bot-menu");
-          if (menu.style.display === "none" || menu.style.display === "") {
-              menu.style.display = "block";
-          } else {
-              menu.style.display = "none";
-          }
-      });
-
-      // Open introduction modal when the "Introduction" link is clicked
-      document.getElementById('intro-link').addEventListener('click', function(e) {
-        e.preventDefault();
-        document.getElementById('intro-modal').style.display = 'block';
-      });
-
-      // Close the modal when the close button (×) is clicked
-      document.querySelector('.close-button').addEventListener('click', function() {
-        document.getElementById('intro-modal').style.display = 'none';
-      });
-
-      // Close the modal if the user clicks outside the modal content
-      window.addEventListener('click', function(event) {
-        var modal = document.getElementById('intro-modal');
-        if (event.target == modal) {
-          modal.style.display = 'none';
-        }
-      });
-    </script>
-
-</body>
-</html>
-
-   <div class="main-content">
-    <div class="sidebar">
-        <h3>Filters</h3>
-        <form method="GET">
-
-            <input type="text" class="filter-input" placeholder="Search by Job Title" value="{{ keyword }}" name="keyword">
-
-            <!-- Location Filter -->
-            <input type="text" class="filter-input" placeholder="Search by Location" value="{{ location }}" name="location">
-
-            <!-- Job Type Filter -->
-            <select class="filter-input" name="job_type">
-                <option value="">Job Type</option>
-                <option value="Full-time" {% if job_type == 'Full-time' %}selected{% endif %}>Full-time</option>
-                <option value="Part-time" {% if job_type == 'Part-time' %}selected{% endif %}>Part-time</option>
-                <option value="Remote" {% if job_type == 'Remote' %}selected{% endif %}>Remote</option>
-            </select>
-
-            <button type="submit" class="filter-input">Apply Filters</button>
-        </form>
-    </div>
-
-    <div class="job-listing">
-        {% if jobs %}
-            {% for job in jobs %}
-                <div class="job-card">
-                    <h3><a href="{% url 'job_detail' job.job_id %}">{{ job.title }}</a></h3>
-                    <p><strong>{{ job.company }}</strong></p>
-                    <p class="location">{{ job.location }}</p>
-                    <p>Salary: ${{ job.salary }}</p>
-                </div>
-            {% endfor %}
-        {% else %}
-            <p>No jobs found. Please try a different search criteria!</p>
-        {% endif %}
-         </div>
-    </div>
-
-
-    <!-- Footer -->
-    <footer>
-        <p>Job Portal - &copy; 2025</p>
-        <div class="footer-links">
-            <a href="#">About</a>
-            <a href="#">Contact</a>
-            <a href="#">Privacy</a>
-        </div>
-        <div class="social-icons">
-            <a href="#" class="fa fa-twitter"></a>
-            <a href="#" class="fa fa-linkedin"></a>
-        </div>
-    </footer>
-
 </body>
 </html>
