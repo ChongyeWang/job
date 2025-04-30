@@ -94,20 +94,25 @@ def home_page(request):
 
     is_logged_in = 'user_id' in request.session  
     username = None
+    applied = []
+    application_list_received = []
+
     if 'username' in request.session:
         username = request.session['username']
+        applications = db['applications']
+    
+        applications = db['applications']
+        user_data = users_collection.find_one({'username': username})
+        if user_data != None and 'jobs' in user_data:
+            job_list = user_data['jobs']['job_id']
+            application_list_received = list(applications.find({"job_id": {"$in": job_list}}))
+        else:
+            application_list_received = []
+        applied = list(applications.find({"username": request.session['username']}))    
     isAdmin = False
     if 'isAdmin' in request.session:
         isAdmin = True
-
-    applications = db['applications']
-    username = request.session['username']
-    applications = db['applications']
-    user_data = users_collection.find_one({'username': username})
-    job_list = user_data['jobs']['job_id']
-    application_list_received = list(applications.find({"job_id": {"$in": job_list}}))
-
-    applied = list(applications.find({"username": request.session['username']}))    
+    
 
     # Set today's date
     today_date = datetime.date.today().strftime('%B %d, %Y')
