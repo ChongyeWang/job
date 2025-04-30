@@ -8,6 +8,13 @@ from pymongo import MongoClient
 from jobb.utils import db, users_collection
 from django.core.files.storage import default_storage
 import datetime
+import os
+import json
+import requests
+from django.conf import settings
+from django.http import JsonResponse, HttpResponseBadRequest
+from django.views.decorators.csrf import csrf_exempt
+
 
 
 def convert_objectid_to_str(doc):
@@ -175,6 +182,38 @@ def admin(request):
     return render(request, 'admin.html', {'applications': updated_applications})
 
 
-    
+def get_ai(request):
+    msg = request.GET.get('message', '')
+
+
+    msg = request.GET.get('message', '')
+    api_key = "AIzaSyCWTPFqBopRo2TVlBgHHexYYVxySVlqjP8"  # e.g. set in settings.py or via env vars
+    url = (
+        "https://generativelanguage.googleapis.com/"
+        f"v1beta/models/gemini-2.0-flash:generateContent?key={api_key}"
+    )
+
+    body = {
+        "contents": [
+            { "parts": [ { "text": msg + " make content related with a job site" + " make it less than 50 words"} ] }
+        ]
+    }
+
+    headers = {
+        "Content-Type": "application/json"
+    }
+
+    resp = requests.post(url, json=body, headers={"Content-Type": "application/json"})
+    if not resp.ok:
+        return JsonResponse({"error": resp.text}, status=resp.status_code)
+
+    data = resp.json()
+
+    try:
+        reply_text = data["candidates"][0]["content"]["parts"][0]["text"]
+    except (KeyError, IndexError):
+        return JsonResponse({"error": "Unexpected API response format"}, status=500)
+
+    return JsonResponse({"reply": reply_text})
 
 

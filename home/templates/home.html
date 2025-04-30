@@ -1133,17 +1133,28 @@
 
     <!-- Bot Widget -->
     <div id="bot-widget">
-        <div id="bot-menu">
-            <h4>Quick Navigation</h4>
-            <ul>
-                <li><a href="{% url 'home' %}"><i class="fas fa-home"></i> Home</a></li>
-                <li><a href="{% url 'profile' %}"><i class="fas fa-user"></i> My Profile</a></li>
-                <li><a href="#" id="intro-link"><i class="fas fa-info-circle"></i> Introduction</a></li>
-            </ul>
-        </div>
-        <button id="bot-toggle"><i class="fas fa-robot"></i></button>
-    </div>
+      <div id="bot-menu">
+        <h4>Quick Navigation</h4>
+        <ul>
+          <li><a href="{% url 'home' %}"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="{% url 'profile' %}"><i class="fas fa-user"></i> My Profile</a></li>
+          <li><a href="#" id="intro-link"><i class="fas fa-info-circle"></i> Introduction</a></li>
+          <li>
+             <input id="bot-input"
+                     type="text"
+                     placeholder="Ask us something..."
+                     style="width:100%; padding:0.5em;">
+              <div id="bot-content" style="padding:1em; border-top:1px solid #ccc;">
+                <p>Type something below and hit Enter…</p>
+              </div>
 
+             
+          </li>
+        </ul>
+      </div>
+
+      <button id="bot-toggle"><i class="fas fa-robot"></i></button>
+    </div>
     <!-- Introduction Modal -->
     <div id="intro-modal" class="modal">
         <div class="modal-content">
@@ -1154,6 +1165,7 @@
             <p>Need help navigating? Use our bot assistant for quick access to different sections of the site.</p>
         </div>
     </div>
+
 
     <!-- Footer -->
     <footer>
@@ -1319,6 +1331,63 @@
                 modal.style.display = 'none';
             }
         });
+
+        document.querySelector("a[href$='profile']").addEventListener("click", e => {
+            e.preventDefault();
+            fetchAndRender("/ai/", renderProfile);
+        });
+
+        function fetchAndRender(url, renderer) {
+            fetch(url, {
+              credentials: "same-origin",                // include cookies for auth
+              headers: { "X-Requested-With": "XMLHttpRequest" }
+            })
+            .then(res => {
+              if (!res.ok) throw new Error(res.statusText);
+              return res.json();
+            })
+            .then(renderer)
+            .catch(err => {
+              content.innerHTML = `<p class="error">Error loading data: ${err.message}</p>`;
+            });
+        }
     </script>
+    <script>
+        document.getElementById("bot-input").addEventListener("keydown", function(e) {
+          if (e.key !== "Enter") return;
+          const text = this.value.trim();
+          if (!text) return;
+
+          // show the user’s message
+          const content = document.getElementById("bot-content");
+          content.innerHTML = `
+            <p><strong>You:</strong> ${text}</p>
+            <p><em>…thinking…</em></p>
+          `;
+
+          // call the single API
+          fetch(`/home/ai/?message=${encodeURIComponent(text)}`)
+          .then(res => {
+            if (!res.ok) throw new Error(res.statusText);
+            return res.json();
+          })
+          .then(data => {
+            // replace the “…thinking…” with bot reply
+            content.innerHTML = `
+              <p><strong>You:</strong> ${text}</p>
+              <p><strong>Bot:</strong> ${data.reply}</p>
+            `;
+            this.value = "";
+          })
+          .catch(err => {
+            content.innerHTML = `<p class="error">Error: ${err.message}</p>`;
+          });
+        });
+
+        // optional: toggle widget
+        document.getElementById("bot-toggle").addEventListener("click", () => {
+          document.getElementById("bot-widget").classList.toggle("open");
+        });
+        </script>
 </body>
 </html>
