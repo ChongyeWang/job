@@ -1,0 +1,13 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Resume Upload</title>
+  </head>
+  <body>
+    <h1>Upload Your Resume</h1>
+    <form method="POST" action="/process" enctype="multipart/form-data">
+      <input type="file" name="resume" accept=".pdf,.docx" required>
+      <input type="submit" value="Submit">
+    </form>
+  </body>
+</html>

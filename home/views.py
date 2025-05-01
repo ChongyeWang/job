@@ -221,9 +221,12 @@ def get_ai(request):
         f"v1beta/models/gemini-2.0-flash:generateContent?key={api_key}"
     )
 
+    ai_prompt = "Your answer should include a greeting. Be polite.limit your original answer to less than 50 words. Do NOT say “Okay” or otherwise acknowledge the limit. Just give the answer directly. "
+    
     body = {
         "contents": [
-            { "parts": [ { "text": msg + " make content related with a job site" + " make it less than 50 words"} ] }
+
+            { "parts": [ { "text": msg + ai_prompt} ] }
         ]
     }
 
@@ -276,6 +279,30 @@ def upload(request):
 
     print(text)
     print(233)
+    try:
+        # Option A: send as JSON
+        resp = requests.post(
+            'http://127.0.0.1:5000/process',
+            json={'text': text},
+            timeout=500
+        )
+    except requests.RequestException as e:
+        return JsonResponse({'error': 'Could not reach Flask service', 'details': str(e)}, status=502)
+
+    # 3. Relay Flask’s response (assumes JSON)
+    if resp.headers.get('Content-Type','').startswith('application/json'):
+        print(resp)
+        print(9999999)
+
+        return JsonResponse({'result': resp.text}, status=resp.status_code)
+    else:
+        # fallback: return raw text
+
+        return JsonResponse({'result': resp.text}, status=resp.status_code)
+
+
+    
+
     return JsonResponse({
         'success': True,
         'message':  'Resume uploaded and parsed!',
