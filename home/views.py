@@ -19,6 +19,8 @@ from django.conf      import settings
 from django.http      import JsonResponse
 from django.utils.crypto import get_random_string
 from django.views.decorators.csrf import csrf_exempt
+from django.core.paginator import Paginator
+#from .models import Job 
 
 from PyPDF2 import PdfReader
 import textract  
@@ -33,6 +35,7 @@ def convert_objectid_to_str(doc):
     if '_id' in doc:
         doc['_id'] = str(doc['_id'])
     return doc
+
 
 def job_detail(request, job_id):
     print()
@@ -82,74 +85,90 @@ def job_detail(request, job_id):
     return render(request, 'job_detail.html', {'job': jobs[0]})
 
 
+from math import ceil
+
+class SimplePage:
+    def __init__(self, object_list, number, total_count, per_page):
+        self.object_list = object_list
+        self.number = number
+        self.paginator = self
+        self.total_count = total_count
+        self.per_page = per_page
+        self.num_pages = ceil(total_count / per_page)
+
+    def has_previous(self):
+        return self.number > 1
+
+    def has_next(self):
+        return self.number < self.num_pages
+
+    def previous_page_number(self):
+        return self.number - 1
+
+    def next_page_number(self):
+        return self.number + 1
+
+    def start_index(self):
+        return (self.number - 1) * self.per_page + 1
+
+    def end_index(self):
+        return min(self.number * self.per_page, self.total_count)
 def home_page(request):
     keyword = request.GET.get('keyword', '')
     location = request.GET.get('location', '')
     job_type = request.GET.get('job_type', '')
 
     query = {}
-    
     if keyword:
-        query['title'] = {'$regex': keyword, '$options': 'i'} 
+        query['title'] = {'$regex': keyword, '$options': 'i'}
     if location:
-        query['location'] = {'$regex': location, '$options': 'i'}  
+        query['location'] = {'$regex': location, '$options': 'i'}
     if job_type:
-        query['job_type'] = {'$regex': job_type, '$options': 'i'} 
+        query['job_type'] = {'$regex': job_type, '$options': 'i'}
 
     jobs_collection = db['job']
 
-    jobs = []
-    if len(query) == 0:
-    	jobs = list(jobs_collection.find().limit(100))    
-    else:
-    	jobs = jobs_collection.find(query).limit(100)
-    
-    jobs = [convert_objectid_to_str(job) for job in jobs]
+    per_page = 20
+    page_number = int(request.GET.get('page', 1))
+    total_count = jobs_collection.count_documents(query)
 
-    is_logged_in = 'user_id' in request.session  
-    username = None
+    skip_count = (page_number - 1) * per_page
+    job_cursor = jobs_collection.find(query).skip(skip_count).limit(per_page)
+    jobs_list = [convert_objectid_to_str(job) for job in job_cursor]
+
+    page_obj = SimplePage(jobs_list, page_number, total_count, per_page)
+
+    # Dashboard data setup
+    is_logged_in = 'user_id' in request.session
+    username = request.session.get('username')
+    isAdmin = request.session.get('isAdmin', False)
     applied = []
     application_list_received = []
 
-    if 'username' in request.session:
-        username = request.session['username']
-        applications = db['applications']
-    
+    if username:
         applications = db['applications']
         user_data = users_collection.find_one({'username': username})
-        if user_data != None and 'jobs' in user_data:
+        if user_data and 'jobs' in user_data:
             job_list = user_data['jobs']['job_id']
             application_list_received = list(applications.find({"job_id": {"$in": job_list}}))
-        else:
-            application_list_received = []
-        applied = list(applications.find({"username": request.session['username']}))    
-    isAdmin = False
-    if 'isAdmin' in request.session:
-        isAdmin = True
-    
+        applied = list(applications.find({"username": username}))
 
-    # Set today's date
-    today_date = datetime.date.today().strftime('%B %d, %Y')
-
-    # Initialize dashboard data
     dashboard_data = {
         'jobs_applied': len(applied),
         'applications_received': len(application_list_received),
-        'weather': "Sunny, 25°C",  # Replace with API call if needed
+        'weather': "Sunny, 25°C",
     }
 
-
     context = {
-        'jobs': jobs,  
-        'keyword': keyword, 
-        'location': location, 
-        'job_type': job_type,  
+        'page_obj': page_obj,
+        'keyword': keyword,
+        'location': location,
+        'job_type': job_type,
         'is_logged_in': is_logged_in,
         'username': username,
         'isAdmin': isAdmin,
         'dashboard_data': dashboard_data,
     }
-
 
     return render(request, 'home.html', context)
 

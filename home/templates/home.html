@@ -1145,10 +1145,11 @@
             </form>
         </div>
 
+
         <div class="job-listing">
-            {% if jobs %}
-                {% for job in jobs %}
-                    <div class="job-card">
+            {% if page_obj and page_obj.object_list %}
+            {% for job in page_obj.object_list %}
+            <div class="job-card">
                         <h3><a href="{% url 'job_detail' job.job_id %}">{{ job.title }}</a></h3>
                         <p class="job-company">{{ job.company }}</p>
                         <p class="job-location"><i class="fas fa-map-marker-alt"></i> {{ job.location }}</p>
@@ -1164,6 +1165,22 @@
                 </div>
             {% endif %}
         </div>
+        {% if page_obj.paginator.num_pages > 1 %}
+<div class="pagination">
+    {% if page_obj.has_previous %}
+        <a href="?page=1{% if keyword %}&keyword={{ keyword }}{% endif %}{% if location %}&location={{ location }}{% endif %}{% if job_type %}&job_type={{ job_type }}{% endif %}" class="pagination-item"><i class="fas fa-angle-double-left"></i></a>
+        <a href="?page={{ page_obj.previous_page_number }}{% if keyword %}&keyword={{ keyword }}{% endif %}{% if location %}&location={{ location }}{% endif %}{% if job_type %}&job_type={{ job_type }}{% endif %}" class="pagination-item"><i class="fas fa-angle-left"></i></a>
+    {% endif %}
+
+    <span class="pagination-item current">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}{% if keyword %}&keyword={{ keyword }}{% endif %}{% if location %}&location={{ location }}{% endif %}{% if job_type %}&job_type={{ job_type }}{% endif %}" class="pagination-item"><i class="fas fa-angle-right"></i></a>
+        <a href="?page={{ page_obj.paginator.num_pages }}{% if keyword %}&keyword={{ keyword }}{% endif %}{% if location %}&location={{ location }}{% endif %}{% if job_type %}&job_type={{ job_type }}{% endif %}" class="pagination-item"><i class="fas fa-angle-double-right"></i></a>
+    {% endif %}
+</div>
+{% endif %}
+
         
     </div>
 
@@ -1252,6 +1269,7 @@
                     <a href="#"><i class="fab fa-instagram"></i></a>
                 </div>
             </div>
+
         </div>
     </footer>
 
