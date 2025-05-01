@@ -1,200 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ job.title }} - Job Detail</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <style>
-        /* General Styles */
-        body {
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f7fa;
-            color: #333;
-        }
-
-        /* Job Detail Container */
-        .job-detail-container {
-            max-width: 800px;
-            margin: 50px auto;
-            padding: 30px;
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .job-detail-container h1 {
-            color: #0044cc;
-            margin-bottom: 20px;
-            font-size: 2.5em;
-        }
-
-        .job-detail-container h2 {
-            color: #0044cc;
-            margin-bottom: 15px;
-            font-size: 1.8em;
-        }
-
-        .job-detail-container p {
-            font-size: 1.1em;
-            color: #555;
-            margin: 10px 0;
-        }
-
-        .job-detail-container .location {
-            font-weight: bold;
-            color: #888;
-            font-size: 1.2em;
-        }
-
-        .job-detail-container .salary {
-            font-size: 1.2em;
-            color: #0044cc;
-            font-weight: bold;
-        }
-
-        .job-detail-container .description {
-            margin-top: 30px;
-            line-height: 1.8;
-            font-size: 1.1em;
-            color: #444;
-        }
-
-        .job-detail-container .description h3 {
-            color: #0044cc;
-            margin-bottom: 15px;
-            font-size: 1.5em;
-        }
-
-        /* Back Link */
-        .back-link {
-            display: inline-block;
-            margin-top: 30px;
-            padding: 10px 20px;
-            background-color: #0044cc;
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-            transition: background-color 0.3s ease;
-        }
-
-        .back-link:hover {
-            background-color: #003399;
-        }
-
-        /* Application Form Styles */
-        .application-form {
-            margin-top: 30px;
-            padding: 20px;
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-        }
-
-        .application-form h3 {
-            color: #0044cc;
-            margin-bottom: 15px;
-            font-size: 1.5em;
-        }
-
-        .application-form label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #555;
-        }
-
-        .application-form input[type="text"],
-        .application-form input[type="email"],
-        .application-form textarea,
-        .application-form input[type="file"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 1em;
-        }
-
-        .application-form textarea {
-            resize: vertical;
-            height: 100px;
-        }
-
-        .application-form button {
-            padding: 10px 20px;
-            background-color: #0044cc;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .application-form button:hover {
-            background-color: #003399;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .job-detail-container {
-                padding: 20px;
-                margin: 20px;
-            }
-
-            .job-detail-container h1 {
-                font-size: 2em;
-            }
-
-            .job-detail-container h2 {
-                font-size: 1.5em;
-            }
-
-            .job-detail-container p {
-                font-size: 1em;
-            }
-
-            .back-link {
-                width: 100%;
-                text-align: center;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="job-detail-container">
-        <h1>{{ job.title }}</h1>
-        <p><strong>Company:</strong> {{ job.company }}</p>
-        <p class="location"><strong>Location:</strong> {{ job.location }}</p>
-        <p class="salary"><strong>Salary:</strong> ${{ job.salary }}</p>
-        <div class="description">
-            <h3>Job Description</h3>
-            <p>{{ job.description }}</p>
-        </div>
-        <a href="{% url 'home' %}" class="back-link">← Back to Job Listings</a>
-
-        <div class="application-form">
-            <h3>Apply for this Job</h3>
-            <form method="post" action="{% url 'job_detail' job.job_id %}" enctype="multipart/form-data">
-                {% csrf_token %}
-                <label for="applicant_name">Full Name:</label>
-                <input type="text" id="applicant_name" name="applicant_name" required>
-
-                <label for="applicant_email">Email:</label>
-                <input type="email" id="applicant_email" name="applicant_email" required>
-                
-                <label for="resume">Upload Resume:</label>
-                <input type="file" id="resume" name="resume" required>
-
-                <button type="submit">Submit Application</button>
-            </form>
-        </div>
-    </div>
-</body>
-</html> -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -211,7 +14,6 @@
       color: #333;
     }
 
-    /* Header */
     nav {
       background-color: #0044cc;
       padding: 16px 40px;
@@ -243,7 +45,6 @@
       text-decoration: underline;
     }
 
-    /* Hero */
     .hero {
       background: linear-gradient(120deg, #0044cc, #0066ff);
       color: white;
@@ -448,7 +249,7 @@
   <h1>{{ job.title }}</h1>
 </section>
 
-<!-- Main Job Detail -->
+<!-- Job Detail -->
 <div class="job-container">
 
   <!-- Job Meta Info -->
@@ -481,7 +282,9 @@
       <label for="resume">Upload Resume:</label>
       <input type="file" id="resume" name="resume" required>
 
-      <button type="submit"><i class="fas fa-paper-plane"></i> Submit Application</button>
+      <button type="button" id="submit-btn">
+        <i class="fas fa-paper-plane"></i> Submit Application
+      </button>
     </form>
   </div>
 
@@ -522,6 +325,37 @@
     </div>
   </div>
 </footer>
+
+<!-- Confetti + Submit Script -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script>
+  const form = document.querySelector("form");
+  const submitBtn = document.getElementById("submit-btn");
+
+  submitBtn.addEventListener("click", function () {
+    const name = document.getElementById("applicant_name").value.trim();
+    const email = document.getElementById("applicant_email").value.trim();
+    const resume = document.getElementById("resume").files.length;
+
+    if (!name || !email || !resume) {
+      alert("Please fill out all fields before submitting.");
+      return; // stop here
+    }
+
+    // 🎉 Confetti
+    confetti({
+      particleCount: 500,
+      spread: 700,
+      origin: { y: 0.5 },
+      colors: ['#0077b6', '#ffcc00']
+    });
+
+    // ✅ Submit after short delay
+    setTimeout(() => {
+      form.submit();
+    }, 800);
+  });
+</script>
 
 </body>
 </html>
