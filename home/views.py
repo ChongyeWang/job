@@ -14,7 +14,14 @@ import requests
 from django.conf import settings
 from django.http import JsonResponse, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
+import os, subprocess
+from django.conf      import settings
+from django.http      import JsonResponse
+from django.utils.crypto import get_random_string
+from django.views.decorators.csrf import csrf_exempt
 
+from PyPDF2 import PdfReader
+import textract  
 
 
 def convert_objectid_to_str(doc):
@@ -159,7 +166,9 @@ def admin(request):
     username = request.session['username']
     applications = db['applications']
     user_data = users_collection.find_one({'username': username})
-    job_list = user_data['jobs']['job_id']
+    job_list = []
+    if 'jobs' in user_data:
+        job_list = user_data['jobs']['job_id']
     application_list = applications.find({"job_id": {"$in": job_list}})
 
     updated_applications = []
@@ -216,4 +225,40 @@ def get_ai(request):
 
     return JsonResponse({"reply": reply_text})
 
+@csrf_exempt
+def upload(request):
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Only POST allowed'}, status=405)
 
+    uploaded = request.FILES.get('resume')
+    if not uploaded:
+        return JsonResponse({'error': 'No file received'}, status=400)
+
+    # 1) Validate extension
+    name, ext = os.path.splitext(uploaded.name.lower())
+    if ext not in ('.pdf'):
+        return JsonResponse({'error': 'Unsupported file type'}, status=400)
+
+    # 2) Save with default_storage
+    #    This will place it in MEDIA_ROOT (or your configured storage backend)
+    saved_file_name = default_storage.save(f"resumes/{get_random_string(12)}{ext}", uploaded)
+    file_url        = default_storage.url(saved_file_name)
+    full_path       = default_storage.path(saved_file_name)
+
+    try:
+        if ext == '.pdf':
+            reader = PdfReader(full_path)
+            text = "".join(page.extract_text() or "" for page in reader.pages)
+
+    except Exception as e:
+        # delete the file if parsing fails
+        default_storage.delete(saved_file_name)
+        return JsonResponse({'error': f'Failed to parse document: {e}'}, status=500)
+
+    print(text)
+    print(233)
+    return JsonResponse({
+        'success': True,
+        'message':  'Resume uploaded and parsed!',
+        'text':     text
+    })

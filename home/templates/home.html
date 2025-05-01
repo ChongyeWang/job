@@ -1303,37 +1303,49 @@
         });
 
         // Upload button functionality
-        uploadButton.addEventListener('click', () => {
-            if (selectedFile) {
-                // Show a fancy notification instead of an alert
-                const notification = document.createElement('div');
-                notification.style.position = 'fixed';
-                notification.style.bottom = '20px';
-                notification.style.left = '50%';
-                notification.style.transform = 'translateX(-50%)';
-                notification.style.backgroundColor = '#0044cc';
-                notification.style.color = 'white';
-                notification.style.padding = '15px 25px';
-                notification.style.borderRadius = '30px';
-                notification.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.2)';
-                notification.style.zIndex = '9999';
-                notification.innerHTML = `<i class="fas fa-check-circle"></i> Uploading: ${selectedFile.name}`;
-                
-                document.body.appendChild(notification);
-                
-                setTimeout(() => {
-                    notification.style.opacity = '0';
-                    notification.style.transition = 'opacity 0.5s ease';
-                    
-                    setTimeout(() => {
-                        document.body.removeChild(notification);
-                    }, 500);
-                }, 3000);
-                
-                // Here you would implement your backend upload logic
-            } else {
-                alert('Please select a file first.');
-            }
+        uploadButton.addEventListener('click', async () => {
+          if (!selectedFile) {
+            return alert('Please select a file first.');
+          }
+
+          const formData = new FormData();
+          formData.append('resume', selectedFile);
+
+          // show a simple notification
+          const note = document.createElement('div');
+          Object.assign(note.style, {
+            position: 'fixed',
+            bottom:   '20px',
+            left:     '50%',
+            transform:'translateX(-50%)',
+            backgroundColor: '#0044cc',
+            color:    'white',
+            padding:  '15px 25px',
+            borderRadius: '30px',
+            boxShadow: '0 5px 15px rgba(0,0,0,0.2)',
+            zIndex:   '9999'
+          });
+          note.innerHTML = `<i class="fas fa-sync fa-spin"></i> Uploading ${selectedFile.name}…`;
+          document.body.appendChild(note);
+
+          try {
+            const resp = await fetch('/home/upload/', {
+              method: 'POST',
+              body:   formData
+            });
+            const data = await resp.json();
+            note.innerHTML = data.success
+              ? `<i class="fas fa-check-circle"></i> ${data.message}`
+              : `<i class="fas fa-exclamation-triangle"></i> ${data.error}`;
+          } catch (err) {
+            note.innerHTML = `<i class="fas fa-times-circle"></i> Upload failed.`;
+          }
+
+          setTimeout(() => {
+            note.style.transition = 'opacity 0.5s';
+            note.style.opacity = '0';
+            setTimeout(() => note.remove(), 500);
+          }, 2000);
         });
 
         // Bot Widget Toggle
